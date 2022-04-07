@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Check;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "games")
 @Check(constraints = "msrp > 0")
@@ -59,7 +61,8 @@ public class Game {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	@JsonBackReference
 	public Platform getPlatform() {
 		return platform;
 	}

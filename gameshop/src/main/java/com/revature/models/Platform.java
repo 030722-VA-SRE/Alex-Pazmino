@@ -1,15 +1,20 @@
 package com.revature.models;
 
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Check;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="platforms")
@@ -23,6 +28,8 @@ public class Platform {
 	private String name;
 	@Column(nullable = false)
 	private double msrp;
+	@OneToMany(mappedBy = "platform", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	private List<Game> games;
 	
 	public Platform() {
 		super();
@@ -62,10 +69,19 @@ public class Platform {
 	public void setMsrp(double msrp) {
 		this.msrp = msrp;
 	}
+	
+	@JsonManagedReference
+	public List<Game> getGames() {
+		return games;
+	}
+
+	public void setGames(List<Game> games) {
+		this.games = games;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, msrp, name);
+		return Objects.hash(games, id, msrp, name);
 	}
 
 	@Override
@@ -77,14 +93,17 @@ public class Platform {
 		if (getClass() != obj.getClass())
 			return false;
 		Platform other = (Platform) obj;
-		return id == other.id && Double.doubleToLongBits(msrp) == Double.doubleToLongBits(other.msrp)
+		return Objects.equals(games, other.games) && id == other.id
+				&& Double.doubleToLongBits(msrp) == Double.doubleToLongBits(other.msrp)
 				&& Objects.equals(name, other.name);
 	}
 
 	@Override
 	public String toString() {
-		return "Platform [id=" + id + ", name=" + name + ", msrp=" + msrp + "]";
+		return "Platform [id=" + id + ", name=" + name + ", msrp=" + msrp + ", games=" + games + "]";
 	}
+
+
 	
 	
 	

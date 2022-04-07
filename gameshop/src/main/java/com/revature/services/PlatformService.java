@@ -2,6 +2,7 @@ package com.revature.services;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.revature.dtos.PlatformDto;
 import com.revature.exceptions.PlatformExistsException;
 import com.revature.exceptions.PlatformNotFoundException;
 import com.revature.models.Platform;
@@ -25,8 +27,12 @@ public class PlatformService {
 		this.pr = pr;
 	}
 	
-	public List<Platform> getAllPlatforms() throws PlatformNotFoundException{
-		return pr.findAll(Sort.by(Sort.Direction.ASC, "id"));
+	public List<PlatformDto> getAllPlatforms() throws PlatformNotFoundException{
+		List<Platform> platforms = pr.findAll(Sort.by(Sort.Direction.ASC, "id"));
+		
+		return platforms.stream()
+				.map(PlatformDto::new)
+				.collect(Collectors.toList());
 	}
 	
 	public Platform getPlatformById(int id) throws PlatformNotFoundException{

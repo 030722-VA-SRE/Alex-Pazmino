@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.dtos.PlatformDto;
 import com.revature.models.Platform;
 import com.revature.services.PlatformService;
 
@@ -35,7 +36,7 @@ public class PlatformController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Platform>> getAll(){
+	public ResponseEntity<List<PlatformDto>> getAll(){
 		
 		LOG.info("platforms retrieved");
 		return new ResponseEntity<>(ps.getAllPlatforms(), HttpStatus.OK);

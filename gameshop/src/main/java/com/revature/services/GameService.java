@@ -25,6 +25,7 @@ public class GameService {
 	
 	public List<Game> getAllGames() throws GameNotFoundException {
 		return gr.findAll(Sort.by(Sort.Direction.ASC, "id"));
+
 	}
 	
 	public Game getGameById(int id) throws GameNotFoundException {
