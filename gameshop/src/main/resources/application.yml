@@ -4,6 +4,7 @@ spring:
     username: ${DB_USER}
     password: ${DB_PASS}
   jpa:
+    open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
@@ -14,4 +15,9 @@ management:
     web:
       exposure:
         include: health, metrics, prometheus
+  metrics:
+    distribution:
+      percentiles-histogram.http.server.requests: true
+      percentiles.http.server.requests: 0.5, 0.9, 0.95, 0.99, 0.999
+
         

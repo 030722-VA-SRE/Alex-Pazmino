@@ -23,7 +23,7 @@ public class AuthService {
 		this.ur = ur;
 	}
 	
-	public String login(String username, String password) {
+	public UserDto login(String username, String password) {
 		User user = ur.findUserByUsername(username);
 		
 		if(user == null || !user.getPassword().equals(password)) {
@@ -32,11 +32,12 @@ public class AuthService {
 		
 		LOG.info("User " + user.getUsername() + "'s credentials validated.");
 		
-		return user.getId()+":"+user.getRole().toString();
+		return new UserDto(user);
 	}
 	
 	public String generateToken(UserDto principal) {
 		User user = ur.getById(principal.getId());
+		
 		return user.getId()+":"+user.getRole().toString();
 	}
 	public void verify(String token) {

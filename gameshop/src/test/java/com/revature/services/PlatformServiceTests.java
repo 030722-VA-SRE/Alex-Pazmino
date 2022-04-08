@@ -1,13 +1,15 @@
 package com.revature.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,11 +24,30 @@ public class PlatformServiceTests {
 	
 	private static PlatformRepository pr;
 	private static PlatformService ps;
+	private static List<Platform> platforms;
+	private static List<PlatformDto> platformsDto;
+	
+	@BeforeAll
+	public static void setup() {
+		pr = mock(PlatformRepository.class);
+		ps = new PlatformService(pr);
+		
+		Platform p1 = new Platform(1, "first", 20.00);
+		Platform p2 = new Platform(2, "second", 30.00);
+		platforms = new ArrayList<>();
+		platforms.add(p1);
+		platforms.add(p2);
+		
+		platformsDto = new ArrayList<>();
+		platformsDto.add(new PlatformDto(p1));
+		platformsDto.add(new PlatformDto(p2));
+	}
+	
 	
 	@Test
 	void getPlatformsTest() {
 		when(pr.findAll()).thenReturn(new ArrayList<Platform>());
-		assertThrows(PlatformNotFoundException.class,() ->{
+		assertDoesNotThrow(() ->{
 			ps.getAllPlatforms();
 		});
 	}
@@ -41,9 +62,14 @@ public class PlatformServiceTests {
 	
 	@Test
 	void createPlatformTest() {
-		when(pr.save(new Platform())).thenReturn(new Platform());
-		assertEquals(new PlatformDto(new Platform()), ps.createPlatform(null));
+		Platform p = new Platform();
+		when(pr.save(p)).thenReturn(p);
+		assertDoesNotThrow(() ->{
+			ps.createPlatform(p);
+		});
 	}
+	
+	
 	
 	@Test
 	void updatePlatformTest() {
@@ -53,7 +79,7 @@ public class PlatformServiceTests {
 	}
 	
 	@Test
-	void deletePlatform() {
+	void deletePlatformTest() {
 		when(pr.findById(0)).thenReturn(Optional.empty());
 		assertThrows(PlatformNotFoundException.class, () ->{
 			ps.deletePlatformById(0);

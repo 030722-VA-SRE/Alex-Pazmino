@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +29,7 @@ public class Platform {
 	private String name;
 	@Column(nullable = false)
 	private double msrp;
-	@OneToMany(mappedBy = "platform", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "platform", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Game> games;
 	
 	public Platform() {

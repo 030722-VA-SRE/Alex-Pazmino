@@ -37,6 +37,13 @@ public class Game {
 		super();
 	}
 	
+	public Game(int id, String name, boolean isExclusive, double msrp) {
+		this();
+		this.id = id;
+		this.name = name;
+		this.isExclusive = isExclusive;
+		this.msrp = msrp;
+	}
 	public Game(int id, String name, Platform platform, boolean isExclusive, double msrp) {
 		this();
 		this.id = id;
